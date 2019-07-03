@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
+using ProAgil.WebAPI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace ProAgil.WebAPI.Data
         public DataContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<Evento> Eventos { get; set; }
     }
 }
