@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProAgil.WebAPI", "ProAgil.WebAPI.csproj", "{DC76189C-DC83-40B2-B9EB-AA6B36B3F96F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProAgil.WebAPI", "ProAgil.WebAPI\ProAgil.WebAPI.csproj", "{DC76189C-DC83-40B2-B9EB-AA6B36B3F96F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProAgil.Repository", "..\ProAgil.Repository\ProAgil.Repository.csproj", "{B95F28EB-702E-465C-BC56-16512D1DBD60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProAgil.Repository", "ProAgil.Repository\ProAgil.Repository.csproj", "{B95F28EB-702E-465C-BC56-16512D1DBD60}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProAgil.Domain", "..\ProAgil.Domain\ProAgil.Domain.csproj", "{DB695576-D010-424C-9F87-5124F9B3740B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProAgil.Domain", "ProAgil.Domain\ProAgil.Domain.csproj", "{DB695576-D010-424C-9F87-5124F9B3740B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
