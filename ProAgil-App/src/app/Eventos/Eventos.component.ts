@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { EventoService } from '../_services/evento.service';
+import { Evento } from '../_models/Evento';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-eventos',
@@ -10,10 +12,13 @@ export class EventosComponent implements OnInit {
   imagemLargura = 50;
   imagemMargem = 2;
   mostrarImagem = false;
+  modalRef: BsModalRef;
 
   eventosFiltrados: any = [];
   eventos: any = [];
   FiltroLista: string;
+
+  constructor(private eventoService: EventoService, private modalService: BsModalService) { }
 
   get fitroLista(): string {
     return this.FiltroLista;
@@ -24,7 +29,9 @@ export class EventosComponent implements OnInit {
     this.eventosFiltrados = this.filtrarEventos(this.FiltroLista);
   }
 
-  constructor(private http: HttpClient) { }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
 
   ngOnInit() {
     this.getEventos();
@@ -35,16 +42,16 @@ export class EventosComponent implements OnInit {
   }
 
   getEventos() {
-    this.http.get('http://localhost:5000/api/values').subscribe(response => {
-      this.eventos = response;
-      this.eventosFiltrados = response;
-      console.log(response);
+    this.eventoService.getEventos().subscribe(
+      (_eventos: Evento[]) => {
+      this.eventos = _eventos;
+      this.eventosFiltrados = _eventos;
     }, error => {
       console.log(error);
     });
   }
 
-  filtrarEventos(filtrarPor: string) {
+  filtrarEventos(filtrarPor: string): Evento[] {
     filtrarPor = filtrarPor.toLocaleLowerCase();
     return this.eventos.filter(evento => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1);
   }

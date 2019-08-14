@@ -14,6 +14,7 @@ namespace ProAgil.Repository
         public EventoRepository(ProAgilContext context) : base(context)
         {
             _context = context;
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public async Task<Evento> GetAsyncById(int eventoId, bool includePalestrantes = false)
