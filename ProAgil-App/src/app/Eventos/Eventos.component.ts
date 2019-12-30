@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { EventoService } from '../_services/evento.service';
 import { Evento } from '../_models/Evento';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-eventos',
@@ -20,7 +20,7 @@ export class EventosComponent implements OnInit {
   eventos: any = [];
   FiltroLista: string;
 
-  constructor(private eventoService: EventoService, private modalService: BsModalService) { }
+  constructor(private eventoService: EventoService, private modalService: BsModalService, private formBuilder: FormBuilder) { }
 
   get fitroLista(): string {
     return this.FiltroLista;
@@ -32,7 +32,7 @@ export class EventosComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template, { animated: false });
   }
 
   ngOnInit() {
@@ -45,18 +45,14 @@ export class EventosComponent implements OnInit {
   }
 
   validation() {
-    this.registerForm = new FormGroup({
-      tema: new FormControl('', [
-        Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(50)
-      ]),
-      local: new FormControl('', Validators.required),
-      dataEvento: new FormControl('', Validators.required),
-      qtdPessoas: new FormControl('', [Validators.required, Validators.max(12000)]),
-      imagemUrl: new FormControl('', Validators.required),
-      telefone: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
+    this.registerForm = this.formBuilder.group({
+      tema: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(50) ]],
+      local: [ '', Validators.required ],
+      dataEvento: [ '',  Validators.required ],
+      qtdPessoas: [ '', [Validators.required, Validators.max(12000)] ],
+      imagemUrl: [ '', Validators.required ],
+      telefone: [ '', Validators.required ],
+      email: [ '', [Validators.required, Validators.email] ],
     });
   }
 
@@ -66,9 +62,9 @@ export class EventosComponent implements OnInit {
 
   getEventos() {
     this.eventoService.getEventos().subscribe(
-      (_eventos: Evento[]) => {
-      this.eventos = _eventos;
-      this.eventosFiltrados = _eventos;
+      (eventosInternal: Evento[]) => {
+      this.eventos = eventosInternal;
+      this.eventosFiltrados = eventosInternal;
     }, error => {
       console.log(error);
     });

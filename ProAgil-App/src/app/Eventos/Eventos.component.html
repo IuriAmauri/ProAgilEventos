@@ -108,7 +108,7 @@
       <div class="form-group col-md-4">
         <label>Data e Hora</label>
         <input type="text" class="form-control" 
-        [ngClass]="{ 'is-invalid': isFieldInvalid('dataEvento') }"
+        bsDatepicker
         formControlName="dataEvento" placeholder="Data/Hora">
         <div class="invalid-feedback">
           A data/hora é obrigatória.
@@ -157,10 +157,10 @@
     </div> 
   </form>
   <br>
-  <button class="btn btn-secondary" (click)="openModal(template)">
+  <button class="btn btn-secondary">
     Fechar
   </button>
-  <button class="btn btn-primary" (click)="salvarAlteracao()">
+  <button class="btn btn-primary" [disabled]="!registerForm.valid" (click)="salvarAlteracao()">
     Salvar Alterações
   </button>
   <br>
