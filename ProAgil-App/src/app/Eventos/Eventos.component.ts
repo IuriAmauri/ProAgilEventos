@@ -1,13 +1,15 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { EventoService } from '../_services/evento.service';
 import { Evento } from '../_models/Evento';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { BsModalRef, BsModalService, defineLocale, BsLocaleService, ptBrLocale, BsDatepickerConfig } from 'ngx-bootstrap';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+
+defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-eventos',
-  templateUrl: './Eventos.component.html',
-  styleUrls: ['./Eventos.component.css']
+  templateUrl: './eventos.component.html',
+  styleUrls: ['./eventos.component.scss']
 })
 export class EventosComponent implements OnInit {
   imagemLargura = 50;
@@ -15,12 +17,15 @@ export class EventosComponent implements OnInit {
   mostrarImagem = false;
   modalRef: BsModalRef;
   registerForm: FormGroup;
+  datePickerConfig: Partial<BsDatepickerConfig>;
 
   eventosFiltrados: any = [];
   eventos: any = [];
   FiltroLista: string;
 
-  constructor(private eventoService: EventoService, private modalService: BsModalService, private formBuilder: FormBuilder) { }
+  constructor(private eventoService: EventoService, private formBuilder: FormBuilder, private localeService: BsLocaleService) {
+    this.localeService.use('pt-br');
+  }
 
   get fitroLista(): string {
     return this.FiltroLista;
@@ -31,20 +36,21 @@ export class EventosComponent implements OnInit {
     this.eventosFiltrados = this.filtrarEventos(this.FiltroLista);
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { animated: false });
+  openModal(template: any) {
+    template.show();
   }
 
   ngOnInit() {
-    this.validation();
-    this.getEventos();
+    this.validarForm();
+    this.obterEventos();
+    this.configurarDatePicker();
   }
 
   alternarImagem() {
     this.mostrarImagem = !this.mostrarImagem;
   }
 
-  validation() {
+  validarForm() {
     this.registerForm = this.formBuilder.group({
       tema: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(50) ]],
       local: [ '', Validators.required ],
@@ -60,7 +66,7 @@ export class EventosComponent implements OnInit {
 
   }
 
-  getEventos() {
+  obterEventos() {
     this.eventoService.getEventos().subscribe(
       (eventosInternal: Evento[]) => {
       this.eventos = eventosInternal;
@@ -75,9 +81,15 @@ export class EventosComponent implements OnInit {
     return this.eventos.filter(evento => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1);
   }
 
-  isFieldInvalid(fieldName: string): boolean {
+  ehCampoInvalido(fieldName: string): boolean {
     const field = this.registerForm.get(fieldName);
 
     return field.errors && field.touched;
+  }
+
+  configurarDatePicker() {
+    this.datePickerConfig = {
+      dateInputFormat: 'DD/MM/YYYY HH:mm'
+    };
   }
 }

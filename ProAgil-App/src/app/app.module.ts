@@ -7,7 +7,7 @@ import { BsDropdownModule, TooltipModule, ModalModule, BsDatepickerModule } from
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { EventosComponent } from './Eventos/Eventos.component';
+import { EventosComponent } from './eventos/eventos.component';
 import { NavComponent } from './nav/nav.component';
 
 import { DateTimeFormatPipePipe } from './helpers/DateTimeFormatPipe.pipe';

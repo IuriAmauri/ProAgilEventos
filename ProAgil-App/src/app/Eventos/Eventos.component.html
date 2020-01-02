@@ -1,9 +1,13 @@
-<div class="form-inline">
+<div class="d-flex">
+  <div class="form-inline mr-auto">
+    <div>
+      Filtro: <input type="text" class="form-control mr2" placeholder="Buscar" [(ngModel)]="filtroLista">
+    </div>
+  </div>
   <div>
-    Filtro: <input type="text" 
-                   class="form-control mr2" 
-                   placeholder="Buscar"
-                   [(ngModel)]="filtroLista">
+    <div class="btn btn-outline-primary">
+      <div class="i fa fa-plus-circle">Novo</div>
+    </div>
   </div>
 </div>
 <table class="table table-stripped">
@@ -65,32 +69,38 @@
   </tfoot>
 </table>
 
-<ng-template #template>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Modal</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
+<div bsModal #template="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Large modal</h4>
+        <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+      </div>
     </div>
-    <div class="modal-body">
-      This is a modal.
-    </div>
-  </ng-template>
+  </div>
+</div>
 
   <form [formGroup]="registerForm">
     <div class="form-row">
       <div class="form-group col-md-12">
         <label>Tema</label>
         <input type="text" class="form-control"
-          [ngClass]="{ 'is-invalid': isFieldInvalid('tema') }"
+          [ngClass]="{ 'is-invalid': ehCampoInvalido('tema') }"
           formControlName="tema" placeholder="Tema">
-        <div *ngIf="isFieldInvalid('tema') && registerForm.get('tema').hasError('required')" class="invalid-feedback">
+        <div *ngIf="ehCampoInvalido('tema') && registerForm.get('tema').hasError('required')" class="invalid-feedback">
           O tema é obrigatório.
         </div>
-        <div *ngIf="isFieldInvalid('tema') && registerForm.get('tema').hasError('minlength')" class="invalid-feedback">
+        <div *ngIf="ehCampoInvalido('tema') && registerForm.get('tema').hasError('minlength')" class="invalid-feedback">
           O tema deve ter no mínimo 4 caracteres.
         </div>
-        <div *ngIf="isFieldInvalid('tema') && registerForm.get('tema').hasError('maxlength')" class="invalid-feedback">
+        <div *ngIf="ehCampoInvalido('tema') && registerForm.get('tema').hasError('maxlength')" class="invalid-feedback">
           O tema deve ter no máximo 50 caracteres.
         </div>
       </div>
@@ -99,7 +109,7 @@
       <div class="form-group col-md-8" >
         <label>Local</label>
         <input type="text" class="form-control" 
-        [ngClass]="{ 'is-invalid': isFieldInvalid('local') }"
+        [ngClass]="{ 'is-invalid': ehCampoInvalido('local') }"
         formControlName="local" placeholder="Local">
         <div class="invalid-feedback">
           O local é obrigatório.
@@ -108,7 +118,7 @@
       <div class="form-group col-md-4">
         <label>Data e Hora</label>
         <input type="text" class="form-control" 
-        bsDatepicker
+        bsDatepicker [bsConfig]="datePickerConfig"
         formControlName="dataEvento" placeholder="Data/Hora">
         <div class="invalid-feedback">
           A data/hora é obrigatória.
@@ -119,7 +129,7 @@
       <div class="form-group col-md-3">
         <label>Qtd Pessoas</label>
         <input type="text" class="form-control" 
-        [ngClass]="{ 'is-invalid': isFieldInvalid('qtdPessoas') }"
+        [ngClass]="{ 'is-invalid': ehCampoInvalido('qtdPessoas') }"
         formControlName="qtdPessoas" placeholder="Quantidade de pessoas">
         <div class="invalid-feedback">
           A quantidade de pessoas é obrigatória.
@@ -128,7 +138,7 @@
       <div class="form-group col-md-9">
         <label>Imagem</label>
         <input type="text" class="form-control" 
-        [ngClass]="{ 'is-invalid': isFieldInvalid('imagemUrl') }"
+        [ngClass]="{ 'is-invalid': ehCampoInvalido('imagemUrl') }"
         formControlName="imagemUrl" placeholder="Imagem">
         <div class="invalid-feedback">
           A imagem é obrigatória.
@@ -139,7 +149,7 @@
       <div class="form-group col-md-8">
         <label>Telefone</label>
         <input type="text" class="form-control" 
-        [ngClass]="{ 'is-invalid': isFieldInvalid('telefone') }"
+        [ngClass]="{ 'is-invalid': ehCampoInvalido('telefone') }"
         formControlName="telefone" placeholder="Telefone">
         <div class="invalid-feedback">
           O telefone é obrigatório.
@@ -148,7 +158,7 @@
       <div class="form-group col-md-4">
         <label>Email</label>
         <input type="text" class="form-control" 
-        [ngClass]="{ 'is-invalid': isFieldInvalid('email') }"
+        [ngClass]="{ 'is-invalid': ehCampoInvalido('email') }"
         formControlName="email" placeholder="Email">
         <div class="invalid-feedback">
           O email é obrigatório.
