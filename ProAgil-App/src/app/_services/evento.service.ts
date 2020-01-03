@@ -11,15 +11,19 @@ export class EventoService {
 
   constructor(private http: HttpClient) {}
 
-  getEventos(): Observable<Evento[]> {
+  obterEventos(): Observable<Evento[]> {
     return this.http.get<Evento[]>(this.baseUrl);
   }
 
-  getEventoByTema(tema: string): Observable<Evento[]> {
+  obterEventoPeloTema(tema: string): Observable<Evento[]> {
     return this.http.get<Evento[]>(`${this.baseUrl}/getByTema/${tema}`);
   }
 
-  getEventoById(id: number): Observable<Evento> {
+  obterEventoPeloId(id: number): Observable<Evento> {
     return this.http.get<Evento>(`${this.baseUrl}/${id}`);
+  }
+
+  adicionarEvento(evento: Evento) {
+    return this.http.post<Evento>(this.baseUrl, evento);
   }
 }

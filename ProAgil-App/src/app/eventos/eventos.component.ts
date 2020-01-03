@@ -19,6 +19,7 @@ export class EventosComponent implements OnInit {
   registerForm: FormGroup;
   datePickerConfig: Partial<BsDatepickerConfig>;
 
+  evento: Evento;
   eventosFiltrados: any = [];
   eventos: any = [];
   FiltroLista: string;
@@ -34,10 +35,6 @@ export class EventosComponent implements OnInit {
   set filtroLista(filtro: string) {
     this.FiltroLista = filtro;
     this.eventosFiltrados = this.filtrarEventos(this.FiltroLista);
-  }
-
-  openModal(template: any) {
-    template.show();
   }
 
   ngOnInit() {
@@ -62,12 +59,8 @@ export class EventosComponent implements OnInit {
     });
   }
 
-  salvarAlteracao() {
-
-  }
-
   obterEventos() {
-    this.eventoService.getEventos().subscribe(
+    this.eventoService.obterEventos().subscribe(
       (eventosInternal: Evento[]) => {
       this.eventos = eventosInternal;
       this.eventosFiltrados = eventosInternal;
@@ -91,5 +84,26 @@ export class EventosComponent implements OnInit {
     this.datePickerConfig = {
       dateInputFormat: 'DD/MM/YYYY HH:mm'
     };
+  }
+
+  novoEvento(template: any) {
+    this.registerForm.reset();
+    template.show();
+  }
+
+  salvarEvento(template: any) {
+    if (!this.registerForm.valid) {
+      return;
+    }
+
+    this.evento = Object.assign({}, this.registerForm.value);
+    this.eventoService.adicionarEvento(this.evento).subscribe(
+      () => {
+        template.hide();
+        this.obterEventos();
+      }, error => {
+        console.log(error);
+      }
+    );
   }
 }
