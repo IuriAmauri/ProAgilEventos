@@ -49,6 +49,7 @@ export class EventosComponent implements OnInit {
 
   validarForm() {
     this.registerForm = this.formBuilder.group({
+      id: [],
       tema: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(50) ]],
       local: [ '', Validators.required ],
       dataEvento: [ '',  Validators.required ],
@@ -56,27 +57,31 @@ export class EventosComponent implements OnInit {
       imagemUrl: [ '', Validators.required ],
       telefone: [ '', Validators.required ],
       email: [ '', [Validators.required, Validators.email] ],
+      lotes: [],
+      redesSociais: [],
+      palestranteEventos: []
     });
   }
 
   obterEventos() {
     this.eventoService.obterEventos().subscribe(
       (eventosInternal: Evento[]) => {
-      this.eventos = eventosInternal;
-      this.eventosFiltrados = eventosInternal;
-    }, error => {
-      console.log(error);
-    });
+        this.eventos = eventosInternal;
+        this.eventosFiltrados = eventosInternal;
+      }, error => {
+        console.log(error);
+      });
   }
 
   filtrarEventos(filtrarPor: string): Evento[] {
     filtrarPor = filtrarPor.toLocaleLowerCase();
-    return this.eventos.filter(evento => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1);
+    return this.eventos.filter(evento => {
+      return evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1;
+    });
   }
 
   ehCampoInvalido(fieldName: string): boolean {
     const field = this.registerForm.get(fieldName);
-
     return field.errors && field.touched;
   }
 
@@ -86,8 +91,13 @@ export class EventosComponent implements OnInit {
     };
   }
 
-  novoEvento(template: any) {
+  adicionarEvento(template: any) {
     this.registerForm.reset();
+    template.show();
+  }
+
+  editarEvento(template: any, evento: Evento) {
+    this.registerForm.patchValue(evento);
     template.show();
   }
 
@@ -97,13 +107,44 @@ export class EventosComponent implements OnInit {
     }
 
     this.evento = Object.assign({}, this.registerForm.value);
-    this.eventoService.adicionarEvento(this.evento).subscribe(
+
+    if (!this.evento.id) {
+      this.eventoService.adicionarEvento(this.evento).subscribe(
+        () => {
+          template.hide();
+          this.obterEventos();
+        }, error => {
+          console.log(error);
+        }
+        );
+      } else {
+        this.eventoService.editarEvento(this.evento).subscribe(
+          () => {
+            template.hide();
+            this.obterEventos();
+          }, error => {
+            console.log(error);
+          });
+      }
+  }
+
+  confirmarExclusaoEvento(template: any, evento: Evento) {
+    this.evento = evento;
+    template.show();
+  }
+
+  excluirEvento(template: any, eventoId: number) {
+    if (!eventoId) {
+      return;
+    }
+
+    this.eventoService.excluirEvento(eventoId).subscribe(
       () => {
-        template.hide();
         this.obterEventos();
       }, error => {
         console.log(error);
-      }
-    );
+      });
+
+    template.hide();
   }
 }

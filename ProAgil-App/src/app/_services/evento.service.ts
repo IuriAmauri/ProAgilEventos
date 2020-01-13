@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Evento } from '../_models/Evento';
 
@@ -25,5 +25,13 @@ export class EventoService {
 
   adicionarEvento(evento: Evento) {
     return this.http.post<Evento>(this.baseUrl, evento);
+  }
+
+  editarEvento(evento: Evento) {
+    return this.http.put<Evento>(`${this.baseUrl}/${evento.id}`, evento);
+  }
+
+  excluirEvento(id: number) {
+    return this.http.delete<Evento>(`${this.baseUrl}/${id}`);
   }
 }
