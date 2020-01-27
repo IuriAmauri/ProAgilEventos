@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProAgil.Repository;
 using ProAgil.Repository.Interfaces;
+using AutoMapper;
 
 namespace ProAgil.WebAPI
 {
@@ -25,6 +26,7 @@ namespace ProAgil.WebAPI
             services.AddScoped<IProAgilRepository, ProAgilRepository>();
             services.AddScoped<IEventoRepository, EventoRepository>();
             services.AddScoped<IPalestranteRepository, PalestranteRepository>();
+            services.AddAutoMapper(typeof(Startup));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors();
         }
