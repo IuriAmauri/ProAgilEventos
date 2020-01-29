@@ -115,10 +115,11 @@
             </div>
             <div class="form-group col-md-4">
               <label>Data e Hora</label>
-              <input type="text" class="form-control" 
+              <input type="text" class="form-control" id="dataEvento"
               bsDatepicker [bsConfig]="datePickerConfig"
               [ngClass]="{ 'is-invalid': ehCampoInvalido('dataEvento') }"
-              formControlName="dataEvento" placeholder="Data/Hora">
+              formControlName="dataEvento" placeholder="Data/Hora"
+              value="{{ dataEvento | DateTimeFormatPipe }}">
               <div class="invalid-feedback">
                 A data/hora é obrigatória.
               </div>

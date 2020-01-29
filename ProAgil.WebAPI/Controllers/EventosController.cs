@@ -31,7 +31,7 @@ namespace ProAgil.WebAPI.Controllers
             }
             catch (System.Exception e)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de dados falhou: {e.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
@@ -44,7 +44,7 @@ namespace ProAgil.WebAPI.Controllers
             }
             catch (System.Exception e)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de dados falhou: {e.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
@@ -57,7 +57,7 @@ namespace ProAgil.WebAPI.Controllers
             }
             catch (System.Exception e)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de dados falhou: {e.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
@@ -74,7 +74,7 @@ namespace ProAgil.WebAPI.Controllers
             }
             catch (System.Exception e)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de dados falhou: {e.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
 
             return BadRequest();
@@ -98,7 +98,7 @@ namespace ProAgil.WebAPI.Controllers
             }
             catch (System.Exception e)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de dados falhou: {e.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
 
             return BadRequest();
@@ -121,7 +121,7 @@ namespace ProAgil.WebAPI.Controllers
             }
             catch (System.Exception e)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de dados falhou: {e.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
 
             return BadRequest();

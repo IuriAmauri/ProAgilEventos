@@ -1,8 +1,9 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EventoService } from '../_services/evento.service';
 import { Evento } from '../_models/Evento';
-import { BsModalRef, BsModalService, defineLocale, BsLocaleService, ptBrLocale, BsDatepickerConfig } from 'ngx-bootstrap';
+import { BsModalRef, defineLocale, BsLocaleService, ptBrLocale, BsDatepickerConfig } from 'ngx-bootstrap';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -23,8 +24,13 @@ export class EventosComponent implements OnInit {
   eventosFiltrados: any = [];
   eventos: any = [];
   FiltroLista: string;
+  dataEvento: Date;
 
-  constructor(private eventoService: EventoService, private formBuilder: FormBuilder, private localeService: BsLocaleService) {
+  constructor(
+    private eventoService: EventoService,
+    private formBuilder: FormBuilder,
+    private localeService: BsLocaleService,
+    private toastr: ToastrService) {
     this.localeService.use('pt-br');
   }
 
@@ -38,7 +44,7 @@ export class EventosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.validarForm();
+    this.criarForm();
     this.obterEventos();
     this.configurarDatePicker();
   }
@@ -47,7 +53,7 @@ export class EventosComponent implements OnInit {
     this.mostrarImagem = !this.mostrarImagem;
   }
 
-  validarForm() {
+  criarForm() {
     this.registerForm = this.formBuilder.group({
       id: [],
       tema: [ '', [ Validators.required, Validators.minLength(4), Validators.maxLength(50) ]],
@@ -97,6 +103,7 @@ export class EventosComponent implements OnInit {
   }
 
   editarEvento(template: any, evento: Evento) {
+    this.dataEvento = evento.dataEvento;
     this.registerForm.patchValue(evento);
     template.show();
   }
@@ -113,8 +120,10 @@ export class EventosComponent implements OnInit {
         () => {
           template.hide();
           this.obterEventos();
+          this.toastr.success('Evento salvo com sucesso!');
         }, error => {
           console.log(error);
+          this.toastr.error('Erro ao salvar evento. Confira o log para mais informações.');
         }
         );
       } else {
@@ -122,8 +131,10 @@ export class EventosComponent implements OnInit {
           () => {
             template.hide();
             this.obterEventos();
+            this.toastr.success('Evento salvo com sucesso!');
           }, error => {
             console.log(error);
+            this.toastr.error('Erro ao salvar evento. Confira o log para mais informações.');
           });
       }
   }
@@ -141,8 +152,10 @@ export class EventosComponent implements OnInit {
     this.eventoService.excluirEvento(eventoId).subscribe(
       () => {
         this.obterEventos();
+        this.toastr.success('Evento excluído!');
       }, error => {
         console.log(error);
+        this.toastr.error('Erro ao excluir evento. Confira o log para mais informações.');
       });
 
     template.hide();
