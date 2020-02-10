@@ -13,6 +13,7 @@ defineLocale('pt-br', ptBrLocale);
   styleUrls: ['./eventos.component.scss']
 })
 export class EventosComponent implements OnInit {
+  titulo = 'Eventos';
   imagemLargura = 50;
   imagemMargem = 2;
   mostrarImagem = false;
