@@ -34,4 +34,12 @@ export class EventoService {
   excluirEvento(id: number) {
     return this.http.delete<Evento>(`${this.baseUrl}/${id}`);
   }
+
+  salvarFoto(arquivo: File) {
+    const foto = arquivo[0] as File;
+    const formData = new FormData();
+    formData.append('foto', foto, foto.name);
+
+    return this.http.post(`${this.baseUrl}/upload`, formData);
+  }
 }

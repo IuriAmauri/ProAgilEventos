@@ -6,8 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contatos.component.scss']
 })
 export class ContatosComponent implements OnInit {
-
-  titulo = 'Contatos';
   constructor() { }
 
   ngOnInit() {

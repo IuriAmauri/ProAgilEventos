@@ -1,3 +1,7 @@
-table {
+table.table-stripped {
     margin-top: 10px;
+}
+
+input[type='file'] {
+    display: none;
 }

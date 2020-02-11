@@ -13,19 +13,18 @@ defineLocale('pt-br', ptBrLocale);
   styleUrls: ['./eventos.component.scss']
 })
 export class EventosComponent implements OnInit {
-  titulo = 'Eventos';
   imagemLargura = 50;
   imagemMargem = 2;
   mostrarImagem = false;
   modalRef: BsModalRef;
   registerForm: FormGroup;
   datePickerConfig: Partial<BsDatepickerConfig>;
-
   evento: Evento;
   eventosFiltrados: any = [];
   eventos: any = [];
   FiltroLista: string;
   dataEvento: Date;
+  foto: File;
 
   constructor(
     private eventoService: EventoService,
@@ -105,7 +104,10 @@ export class EventosComponent implements OnInit {
 
   editarEvento(template: any, evento: Evento) {
     this.dataEvento = evento.dataEvento;
-    this.registerForm.patchValue(evento);
+    this.evento = Object.assign({}, evento);
+    this.evento.imagemUrl = '';
+
+    this.registerForm.patchValue(this.evento);
     template.show();
   }
 
@@ -117,6 +119,8 @@ export class EventosComponent implements OnInit {
     this.evento = Object.assign({}, this.registerForm.value);
 
     if (!this.evento.id) {
+      this.salvarFoto();
+
       this.eventoService.adicionarEvento(this.evento).subscribe(
         () => {
           template.hide();
@@ -125,9 +129,10 @@ export class EventosComponent implements OnInit {
         }, error => {
           console.log(error);
           this.toastr.error('Erro ao salvar evento. Confira o log para mais informações.');
-        }
-        );
+        });
       } else {
+        this.salvarFoto();
+
         this.eventoService.editarEvento(this.evento).subscribe(
           () => {
             template.hide();
@@ -138,6 +143,11 @@ export class EventosComponent implements OnInit {
             this.toastr.error('Erro ao salvar evento. Confira o log para mais informações.');
           });
       }
+  }
+
+  salvarFoto() {
+    this.evento.imagemUrl = this.evento.imagemUrl.split('\\', 3)[2];
+    this.eventoService.salvarFoto(this.foto).subscribe();
   }
 
   confirmarExclusaoEvento(template: any, evento: Evento) {
@@ -154,11 +164,19 @@ export class EventosComponent implements OnInit {
       () => {
         this.obterEventos();
         this.toastr.success('Evento excluído!');
-      }, error => {
-        console.log(error);
+      }, erroExcluirEvento => {
+        console.log(erroExcluirEvento);
         this.toastr.error('Erro ao excluir evento. Confira o log para mais informações.');
       });
 
     template.hide();
+  }
+
+  onFileChange(event: any) {
+    if (!event.target.files || !event.target.files.length) {
+      return;
+    }
+
+    this.foto = event.target.files;
   }
 }
