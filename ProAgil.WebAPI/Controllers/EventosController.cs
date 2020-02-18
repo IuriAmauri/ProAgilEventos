@@ -6,7 +6,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProAgil.Domain;
-using ProAgil.Repository;
 using ProAgil.Repository.Interfaces;
 
 namespace ProAgil.WebAPI.Controllers
