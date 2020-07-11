@@ -75,7 +75,7 @@ export class EventosComponent implements OnInit {
         this.eventos = eventosInternal;
         this.eventosFiltrados = eventosInternal;
       }, error => {
-        console.log(error);
+        this.toastr.error(`Erro ao carregar eventos: ${error}`);
       });
   }
 

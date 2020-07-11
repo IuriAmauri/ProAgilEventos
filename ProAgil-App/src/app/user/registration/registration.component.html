@@ -1,0 +1,79 @@
+<div class="row mt-4">
+  <div class="col-md-6" style="height: 450px;">
+    <div class="row col-md-12 my-auto side-heder">
+      <h1>Cadastro de Usuário</h1>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <form [formGroup]="registerForm">
+      <div class="form-group required">
+        <label for="">Nome Completo:</label>
+        <input type="text" class="form-control" formControlName="fullName"
+        [ngClass]="{'is-invalid': ehCampoInvalido('fullName') }"
+          placeholder="Insira o Nome Completo"/>
+        <div *ngIf="ehCampoInvalido('fullName') && registerForm.get('fullName').hasError('required')"
+          class="invalid-feedback">
+          Nome Completo é obrigatório.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Email:</label>
+        <input class="form-control" type="text" formControlName="email"
+          [ngClass]="{ 'is-invalid': ehCampoInvalido('email') }"
+          placeholder="Insira o Nome Completo"/>
+        <div *ngIf="ehCampoInvalido('email') && registerForm.get('email').hasError('required')"
+          class="invalid-feedback">
+          email é obrigatório.
+        </div>
+        <div *ngIf="ehCampoInvalido('email') && registerForm.get('email').hasError('email')" class="invalid-feedback">
+          O email deve ser válido.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Usuario:</label>
+        <input class="form-control" type="text" formControlName="userName"
+          [ngClass]="{'is-invalid': ehCampoInvalido('userName')}"
+          placeholder="Insira o nome de Usuário"/>
+        <div *ngIf="ehCampoInvalido('userName') && registerForm.get('userName').hasError('required')"
+          class="invalid-feedback">
+          Usuário é obrigatório.
+        </div>
+      </div>
+      <div formGroupName="passwords">
+        <div class="form-group">
+          <label for="">Senha:</label>
+          <input class="form-control" type="password" formControlName="password"
+            [ngClass]="{ 'is-invalid': ehCampoInvalido('passwords.password')}"
+            placeholder="Digite uma Senha" />
+            <div *ngIf="ehCampoInvalido('passwords.password') && registerForm.get('passwords.password').hasError('minlength')"
+            class="invalid-feedback">
+            Deve conter no mínimo 4 caracters
+          </div>
+          <div *ngIf="ehCampoInvalido('passwords.password') && registerForm.get('passwords.password').hasError('required')"
+            class="invalid-feedback">
+            Senha é obrigatório.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="">Confirmar Senha:</label>
+          <input class="form-control" type="password" formControlName="confirmPassword"
+            [ngClass]="{ 'is-invalid': ehCampoInvalido('passwords.confirmPassword') }"
+            placeholder="Confirme a Senha" />
+          <div *ngIf="ehCampoInvalido('passwords.confirmPassword') && registerForm.get('passwords.confirmPassword').hasError('required')"
+            class="invalid-feedback">
+            Confirme a Senha
+          </div>
+          <div *ngIf="ehCampoInvalido('passwords.confirmPassword') && registerForm.get('passwords.confirmPassword').hasError('mismatch')"
+            class="invalid-feedback">
+            Confirmação não confere
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-8 offset-md-2">
+          <button class="btn btn-lg btn-success btn-block" [disabled]="!registerForm.valid" (click)="cadastrarUsuario()">Registar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
