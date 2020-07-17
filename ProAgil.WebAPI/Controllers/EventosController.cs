@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -82,7 +83,7 @@ namespace ProAgil.WebAPI.Controllers
         }
 
         [HttpPut("{eventoId}")]
-        public async Task<IActionResult> Put(int eventoId, [FromBody] Evento eventoDtoModel)
+        public async Task<IActionResult> Put(int eventoId, [FromBody] EventoDto eventoDto)
         {
             try
             {
@@ -91,11 +92,13 @@ namespace ProAgil.WebAPI.Controllers
                 if (evento == null)
                     return NotFound();
 
-                evento = _mapper.Map(eventoDtoModel, evento);
+                DeleteRelated(eventoDto, evento);
+
+                evento = _mapper.Map(eventoDto, evento);
                 _eventoRepository.Update(evento);
 
                 if (await _eventoRepository.SaveChangesAsync())
-                    return Accepted($"/api/eventos/{eventoDtoModel.Id}", evento);
+                    return Accepted($"/api/eventos/{eventoDto.Id}", evento);
             }
             catch (System.Exception e)
             {
@@ -156,6 +159,21 @@ namespace ProAgil.WebAPI.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
+        }
+
+        private void DeleteRelated(EventoDto eventoDto, Evento evento)
+        {
+            var idLotes = eventoDto.Lotes.Select(s => s.Id).ToList();
+            var idRedesSociais = eventoDto.RedesSociais.Select(s => s.Id).ToList();
+
+            var lotes = evento.Lotes.Where(lote => !idLotes.Contains(lote.Id));
+            var redesSociais = evento.RedesSociais.Where(redeSocial => !idRedesSociais.Contains(redeSocial.Id));
+
+            if (lotes.Any())
+                _eventoRepository.DeleteRange(lotes);
+            
+            if (redesSociais.Any())
+                _eventoRepository.DeleteRange(redesSociais);
         }
     }
 }

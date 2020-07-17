@@ -13,6 +13,15 @@ defineLocale('pt-br', ptBrLocale);
   styleUrls: ['./eventos.component.scss']
 })
 export class EventosComponent implements OnInit {
+
+  constructor(
+    private eventoService: EventoService,
+    private formBuilder: FormBuilder,
+    private localeService: BsLocaleService,
+    private toastr: ToastrService) {
+    this.localeService.use('pt-br');
+  }
+
   imagemLargura = 50;
   imagemMargem = 2;
   mostrarImagem = false;
@@ -25,14 +34,6 @@ export class EventosComponent implements OnInit {
   FiltroLista: string;
   dataEvento: Date;
   foto: File;
-
-  constructor(
-    private eventoService: EventoService,
-    private formBuilder: FormBuilder,
-    private localeService: BsLocaleService,
-    private toastr: ToastrService) {
-    this.localeService.use('pt-br');
-  }
 
   get fitroLista(): string {
     return this.FiltroLista;
@@ -93,7 +94,7 @@ export class EventosComponent implements OnInit {
 
   configurarDatePicker() {
     this.datePickerConfig = {
-      dateInputFormat: 'DD/MM/YYYY HH:mm'
+      dateInputFormat: 'DD/MM/YYYY HH:mm:ss'
     };
   }
 
@@ -130,7 +131,7 @@ export class EventosComponent implements OnInit {
           console.log(error);
           this.toastr.error('Erro ao salvar evento. Confira o log para mais informações.');
         });
-      } else {
+    } else {
         this.salvarFoto();
 
         this.eventoService.editarEvento(this.evento).subscribe(

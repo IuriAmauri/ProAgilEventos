@@ -6,6 +6,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule, TooltipModule, ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { ToastrModule } from 'ngx-toastr';
+import { TabsModule } from 'ngx-bootstrap';
+import { NgxMaskModule } from 'ngx-mask';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -14,11 +17,12 @@ import { PalestrantesComponent } from './palestrantes/palestrantes.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ContatosComponent } from './contatos/contatos.component';
 import { TituloComponent } from './_shared/titulo/titulo.component';
-
-import { DateTimeFormatPipePipe } from './helpers/DateTimeFormatPipe.pipe';
+import { EventoEditComponent } from './eventos/eventoEdit/eventoEdit.component';
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
+
+import { DateTimeFormatPipePipe } from './helpers/DateTimeFormatPipe.pipe';
 import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
@@ -26,6 +30,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
       AppComponent,
       NavComponent,
       EventosComponent,
+      EventoEditComponent,
       PalestrantesComponent,
       ContatosComponent,
       DashboardComponent,
@@ -46,7 +51,10 @@ import { AuthInterceptor } from './auth/auth.interceptor';
       AppRoutingModule,
       HttpClientModule,
       FormsModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      TabsModule.forRoot(),
+      NgxMaskModule.forRoot(),
+      NgxCurrencyModule
    ],
    providers: [
       {

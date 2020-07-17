@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ProAgil.Repository.Interfaces;
 
@@ -25,6 +26,11 @@ namespace ProAgil.Repository
         public void Delete<T>(T entity) where T : class
         {
             _context.Remove(entity);
+        }
+
+        public void DeleteRange<T>(IEnumerable<T> entityList) where T : class
+        {
+            _context.RemoveRange(entityList);
         }
         
         public async Task<bool> SaveChangesAsync()

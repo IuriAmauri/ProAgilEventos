@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/dashboard']);
       },
       error => {
-        this.toastr.error('Falha ao logar.');
+        this.toastr.error(`Falha ao logar. ${error}`);
       }
     );
   }

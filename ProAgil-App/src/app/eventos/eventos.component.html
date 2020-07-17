@@ -29,7 +29,7 @@
       <th>Data</th>
       <th>Qtd Pessoas</th>
       <th>Lote</th>
-      <th>Opções</th>
+      <th colspan="2" class="text-center">Opções</th>
     </tr>
   </thead>
   <tBody *ngIf="eventos && eventos.length">
@@ -43,7 +43,7 @@
       <td>{{ evento.id }}</td>
       <td>{{ evento.tema }}</td>
       <td>{{ evento.local }}</td>
-      <td>{{ evento.dataEvento | DateTimeFormatPipe}}</td>
+      <td>{{ evento.dataEvento }}</td>
       <td>{{ evento.qtdPessoas }}</td>
       <td>        
         <div *ngIf="!evento.lotes.length">
@@ -55,14 +55,14 @@
       </td>      
       <td>
         <div class="btn-group">
-          <button class="btn-sm btn-success" tooltip="Editar" (click)="editarEvento(template, evento)">
+          <button class="btn btn-sm btn-success" tooltip="Editar" [routerLink]="['/evento', evento.id, 'edit']">
             <i class="fa fa-edit"></i>
           </button>
           <button class="btn-sm btn-danger" tooltip="Excluir" (click)="confirmarExclusaoEvento(deletarEventoTemplate, evento)">
             <i class="fa fa-eraser"></i>
           </button>
         </div>
-      </td>       
+      </td>
     </tr> 
   </tBody> 
   <tfoot>
@@ -117,11 +117,10 @@
             </div>
             <div class="form-group col-md-4">
               <label>Data e Hora</label>
-              <input type="text" class="form-control" id="dataEvento"
-              bsDatepicker [bsConfig]="datePickerConfig"
+              <input type="text" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
               [ngClass]="{ 'is-invalid': ehCampoInvalido('dataEvento') }"
               formControlName="dataEvento" placeholder="Data/Hora"
-              value="{{ dataEvento | DateTimeFormatPipe }}">
+              value="{{ dataEvento }}">
               <div class="invalid-feedback">
                 A data/hora é obrigatória.
               </div>
