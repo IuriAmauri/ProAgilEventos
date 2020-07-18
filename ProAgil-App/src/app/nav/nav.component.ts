@@ -11,10 +11,13 @@ export class NavComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
-  ) {}
+    private router: Router) {}
 
   ngOnInit() {
+  }
+
+  get showNavBar() {
+    return this.router.url !== '/user/login';
   }
 
   loggedIn() {

@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EventoService } from '../_services/evento.service';
 import { Evento } from '../_models/Evento';
-import { BsModalRef, defineLocale, BsLocaleService, ptBrLocale, BsDatepickerConfig } from 'ngx-bootstrap';
+import { BsModalRef, BsDatepickerConfig } from 'ngx-bootstrap';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-
-defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-eventos',
@@ -17,9 +15,7 @@ export class EventosComponent implements OnInit {
   constructor(
     private eventoService: EventoService,
     private formBuilder: FormBuilder,
-    private localeService: BsLocaleService,
     private toastr: ToastrService) {
-    this.localeService.use('pt-br');
   }
 
   imagemLargura = 50;
@@ -29,10 +25,9 @@ export class EventosComponent implements OnInit {
   registerForm: FormGroup;
   datePickerConfig: Partial<BsDatepickerConfig>;
   evento: Evento;
-  eventosFiltrados: any = [];
-  eventos: any = [];
+  eventosFiltrados: Evento[];
+  eventos: Evento[];
   FiltroLista: string;
-  dataEvento: Date;
   foto: File;
 
   get fitroLista(): string {
@@ -42,6 +37,10 @@ export class EventosComponent implements OnInit {
   set filtroLista(filtro: string) {
     this.FiltroLista = filtro;
     this.eventosFiltrados = this.filtrarEventos(this.FiltroLista);
+  }
+
+  get temEventos() {
+    return this.eventos !== null && this.eventos !== undefined;
   }
 
   ngOnInit() {
@@ -94,21 +93,12 @@ export class EventosComponent implements OnInit {
 
   configurarDatePicker() {
     this.datePickerConfig = {
-      dateInputFormat: 'DD/MM/YYYY HH:mm:ss'
+      dateInputFormat: 'DD/MM/YYYY HH:mm'
     };
   }
 
   adicionarEvento(template: any) {
     this.registerForm.reset();
-    template.show();
-  }
-
-  editarEvento(template: any, evento: Evento) {
-    this.dataEvento = evento.dataEvento;
-    this.evento = Object.assign({}, evento);
-    this.evento.imagemUrl = '';
-
-    this.registerForm.patchValue(this.evento);
     template.show();
   }
 
@@ -131,19 +121,7 @@ export class EventosComponent implements OnInit {
           console.log(error);
           this.toastr.error('Erro ao salvar evento. Confira o log para mais informações.');
         });
-    } else {
-        this.salvarFoto();
-
-        this.eventoService.editarEvento(this.evento).subscribe(
-          () => {
-            template.hide();
-            this.obterEventos();
-            this.toastr.success('Evento salvo com sucesso!');
-          }, error => {
-            console.log(error);
-            this.toastr.error('Erro ao salvar evento. Confira o log para mais informações.');
-          });
-      }
+    }
   }
 
   salvarFoto() {

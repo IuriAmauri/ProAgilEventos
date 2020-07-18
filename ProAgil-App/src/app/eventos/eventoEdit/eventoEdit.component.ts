@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Evento } from 'src/app/_models/Evento';
-import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap';
+import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { EventoService } from 'src/app/_services/evento.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -16,11 +16,9 @@ export class EventoEditComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private eventoService: EventoService,
-    private localeService: BsLocaleService,
     private activatedRouter: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService) {
-    this.localeService.use('pt-br');
   }
 
   registerForm: FormGroup;

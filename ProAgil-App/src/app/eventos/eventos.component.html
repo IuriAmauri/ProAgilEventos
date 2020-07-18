@@ -32,7 +32,7 @@
       <th colspan="2" class="text-center">Opções</th>
     </tr>
   </thead>
-  <tBody *ngIf="eventos && eventos.length">
+  <tBody *ngIf="temEventos && eventos.length">
     <tr *ngFor="let evento of eventosFiltrados">
       <td>
         <img *ngIf="mostrarImagem"
@@ -67,7 +67,7 @@
   </tBody> 
   <tfoot>
     <tr>
-      <td colspan="7" class="text-center" *ngIf="!eventos.length">
+      <td colspan="7" class="text-center" *ngIf="temEventos && !eventos.length">
         <h4>Nenhum evento encontrado!</h4>
       </td>
     </tr>
@@ -119,8 +119,7 @@
               <label>Data e Hora</label>
               <input type="text" class="form-control" bsDatepicker [bsConfig]="datePickerConfig"
               [ngClass]="{ 'is-invalid': ehCampoInvalido('dataEvento') }"
-              formControlName="dataEvento" placeholder="Data/Hora"
-              value="{{ dataEvento }}">
+              formControlName="dataEvento" placeholder="Data/Hora">
               <div class="invalid-feedback">
                 A data/hora é obrigatória.
               </div>

@@ -22,7 +22,6 @@ import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 
-import { DateTimeFormatPipePipe } from './helpers/DateTimeFormatPipe.pipe';
 import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
@@ -37,8 +36,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
       TituloComponent,
       UserComponent,
       LoginComponent,
-      RegistrationComponent,
-      DateTimeFormatPipePipe
+      RegistrationComponent
    ],
    imports: [
       BrowserModule,
