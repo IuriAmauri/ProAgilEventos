@@ -6,6 +6,7 @@ obj
 /dist
 /tmp
 /out-tsc
+/prod
 
 #dependencies
 node_modules
