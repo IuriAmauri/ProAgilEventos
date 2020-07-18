@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private authService: AuthService,
-    protected router: Router) { }
+    private router: Router) { }
 
   model: any = {};
 
@@ -33,6 +33,10 @@ export class LoginComponent implements OnInit {
         this.toastr.error(`Falha ao logar. ${error}`);
       }
     );
+  }
+
+  redirect(url: string) {
+    this.router.navigate([url]);
   }
 
 }
